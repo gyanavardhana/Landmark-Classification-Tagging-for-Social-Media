@@ -7,9 +7,14 @@ import torch.nn as nn
 def get_model_transfer_learning(model_name="resnet18", n_classes=50):
 
     # Get the requested architecture
+    major, minor, _ = map(int, torchvision_version.split('.'))
     if hasattr(models, model_name):
 
-        model_transfer = getattr(models, model_name)(pretrained=True)
+        if major > 0 or (major == 0 and minor >= 13):
+            weights = models.get_model_weights(model_name).DEFAULT
+            model_transfer = getattr(models, model_name)(weights=weights)
+        else:
+            model_transfer = getattr(models, model_name)(pretrained=True)
 
     else:
 
