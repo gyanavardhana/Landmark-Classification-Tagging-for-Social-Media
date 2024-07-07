@@ -7,6 +7,7 @@ import torch.nn as nn
 def get_model_transfer_learning(model_name="resnet18", n_classes=50):
 
     # Get the requested architecture
+    torchvision_version = torchvision.__version__
     major, minor, _ = map(int, torchvision_version.split('.'))
     if hasattr(models, model_name):
 
